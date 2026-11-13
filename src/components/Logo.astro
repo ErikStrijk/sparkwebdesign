@@ -1,0 +1,22 @@
+---
+interface Props { invert?: boolean }
+const { invert = false } = Astro.props;
+---
+<span class:list={['logo', { invert }]}>
+  <svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <rect width="32" height="32" rx="8" class="tile" />
+    <path class="spark" d="M16 5.5l2.3 7.9 7.9 2.6-7.9 2.6L16 26.5l-2.3-7.9L5.8 16l7.9-2.6z" />
+  </svg>
+  <span class="word">spark<span class="soft">design</span></span>
+</span>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 750; font-size: 1.3rem; letter-spacing: -0.03em; color: var(--c-ink); line-height: 1; }
+  .mark { width: 30px; height: 30px; flex: none; }
+  .tile { fill: var(--c-brand); }
+  .spark { fill: #fff; }
+  .soft { color: var(--c-brand); }
+  .invert { color: #fff; }
+  .invert .soft { color: var(--c-on-dark-soft); }
+  .invert .tile { fill: #fff; }
+  .invert .spark { fill: var(--c-brand); }
+</style>

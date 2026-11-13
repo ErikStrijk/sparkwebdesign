@@ -1,0 +1,35 @@
+---
+import Logo from './Logo.astro';
+import T from './T.astro';
+import { site, whatsappHref } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer on-dark">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <Logo invert />
+        <p>Professionele websites voor €{site.price}. Vaste prijs, geen verrassingen.</p>
+      </div>
+      <dl class="info">
+        <div><dt>Contact</dt><dd><a href={`mailto:${site.email.replace(/[\[\]]/g, '')}`}><T text={site.email} /></a></dd><dd><a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a></dd></div>
+        <div><dt>Bedrijf</dt><dd>KVK <T text={site.kvk} /></dd><dd><T text={site.city} /></dd></div>
+        <div><dt>Juridisch</dt><dd><a href="/privacy">Privacyverklaring</a></dd></div>
+      </dl>
+    </div>
+    <p class="legal">© {year} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--space-8) var(--space-6); font-size: var(--fs-small); }
+  .top { display: grid; gap: var(--space-7); }
+  .brand p { margin-top: var(--space-4); color: var(--c-on-dark-soft); max-width: 22rem; }
+  .info { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-5); }
+  dt { font-weight: 700; color: var(--c-on-dark); margin-bottom: var(--space-2); }
+  dd { color: var(--c-on-dark-soft); margin-top: var(--space-1); }
+  dd a { color: #dce8ff; text-decoration-color: rgb(255 255 255 / 0.3); }
+  dd a:hover { color: var(--c-on-dark); }
+  .legal { margin-top: var(--space-8); padding-top: var(--space-5); border-top: 1px solid rgb(255 255 255 / 0.12); color: #8ea6d0; }
+  @media (min-width: 52rem) { .top { grid-template-columns: 1fr 1.4fr; } }
+</style>

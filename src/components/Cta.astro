@@ -1,0 +1,46 @@
+---
+/**
+ * De primaire CTA + WhatsApp + geruststellende regel. Komt overal terug, altijd hetzelfde.
+ */
+import Icon from './Icon.astro';
+import { site, whatsappHref } from '../data/site';
+interface Props { onDark?: boolean; align?: 'start' | 'center'; whatsapp?: boolean; primary?: boolean }
+const { onDark = false, align = 'start', whatsapp = true, primary = true } = Astro.props;
+---
+<div class:list={['cta', `align-${align}`, { 'cta--on-dark': onDark }]}>
+  <div class="row">
+    {primary && (
+      <a class="btn btn--primary" href="#contact">
+        {site.cta}
+        <span class="btn__chip"><Icon name="arrow" size={20} /></span>
+      </a>
+    )}
+    {whatsapp && (
+      <a class:list={['btn', onDark ? 'btn--ghost' : 'btn--soft']} href={whatsappHref} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} />
+        WhatsApp
+      </a>
+    )}
+  </div>
+  <p class="reassure">
+    <Icon name="check" size={16} />
+    {site.reassurance}
+  </p>
+</div>
+<style>
+  .cta { display: grid; gap: var(--space-4); }
+  .align-center { justify-items: center; text-align: center; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+  .align-center .row { justify-content: center; }
+
+  .reassure { display: inline-flex; align-items: center; gap: 0.45rem; font-size: var(--fs-small); color: var(--c-muted); font-weight: 500; }
+  .reassure :global(svg) { color: var(--c-success); flex: none; }
+  .cta--on-dark .reassure { color: var(--c-on-dark-soft); }
+  .cta--on-dark .reassure :global(svg) { color: var(--c-on-dark); }
+
+  @media (max-width: 30rem) {
+    .align-start .row { flex-direction: column; align-items: stretch; }
+    .align-start .row :global(.btn--primary) { justify-content: space-between; padding-left: 1.5rem; }
+    .align-start .reassure { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import T from '../components/T.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+---
+<Layout title={`Privacyverklaring | ${site.name}`} description={`Hoe ${site.name} omgaat met je persoonsgegevens.`}>
+  <header class="bar container"><a href="/" aria-label="Terug naar de homepage"><Logo /></a></header>
+  <main id="main" class="container doc">
+    <h1>Privacyverklaring</h1>
+    <p class="note"><T text="[CONCEPT: laat deze tekst controleren en vul de gegevens tussen haken in.]" /></p>
+
+    <h2>Wie ben ik?</h2>
+    <p>{site.name}, KVK <T text={site.kvk} />, gevestigd in <T text={site.city} />. Contact: <T text={site.email} />.</p>
+
+    <h2>Welke gegevens verzamel ik?</h2>
+    <p>Als je het contactformulier invult: je naam, e-mailadres, wat voor bedrijf je hebt en of je al een website hebt. Stuur je een WhatsApp of e-mail, dan bewaar ik dat gesprek.</p>
+
+    <h2>Waarvoor gebruik ik ze?</h2>
+    <p>Alleen om contact met je op te nemen over je aanvraag en, als we samenwerken, om je website te maken en te factureren.</p>
+
+    <h2>Met wie deel ik ze?</h2>
+    <p>Formulierberichten gaan via Web3Forms naar mijn mailbox. Ik verkoop je gegevens nooit en deel ze niet met anderen, tenzij de wet dat verplicht.</p>
+
+    <h2>Hoe lang bewaar ik ze?</h2>
+    <p>Aanvragen die niet tot een opdracht leiden, verwijder ik na <T text="[12 maanden]" />. Klantgegevens bewaar ik zolang de wet (fiscale bewaarplicht: 7 jaar) dat vraagt.</p>
+
+    <h2>Cookies</h2>
+    <p>Deze site gebruikt geen tracking- of advertentiecookies.</p>
+
+    <h2>Jouw rechten</h2>
+    <p>Je mag je gegevens altijd inzien, laten aanpassen of laten verwijderen. Mail me via <T text={site.email} />. Ben je het niet eens met hoe ik met je gegevens omga? Dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens.</p>
+
+    <p class="back"><a href="/">← Terug naar de homepage</a></p>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .bar { height: var(--header-h); display: flex; align-items: center; }
+  .bar a { text-decoration: none; }
+  .doc { max-width: calc(42rem + var(--gutter) * 2); padding-block: var(--space-8) var(--section-y); }
+  h1 { font-size: var(--fs-h2); letter-spacing: var(--tracking-h2); color: var(--c-brand); line-height: 1.05; }
+  h2 { font-size: var(--fs-h3); letter-spacing: -0.015em; margin-top: var(--space-7); }
+  p { margin-top: var(--space-3); color: var(--c-ink-soft); }
+  .note { margin-top: var(--space-4); }
+  .back { margin-top: var(--space-7); }
+  .back a { color: var(--c-brand); font-weight: 600; }
+</style>

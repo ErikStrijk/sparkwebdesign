@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import T from './T.astro';
+import { portfolio } from '../data/portfolio';
+---
+<section class="section work" id="werk" aria-labelledby="werk-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2 id="werk-title">Werk</h2>
+      <p>Hier komen mijn eerste projecten. Wil jij er een van zijn? Dan krijg je net zoveel aandacht als een grote klant.</p>
+    </div>
+
+    <ul class="grid">
+      {portfolio.map((item, i) => (
+        <li class="item" data-reveal style={`--reveal-i:${i}`}>
+          <div class="shot">
+            {item.image ? (
+              <Image src={item.image} alt={item.imageAlt ?? ''} widths={[400, 800, 1200]} sizes="(min-width: 60rem) 33vw, 100vw" />
+            ) : (
+              <div class="ph" aria-hidden="true"><Icon name="image" size={32} /><span>Screenshot volgt</span></div>
+            )}
+          </div>
+          <h3>
+            {item.url ? <a href={item.url} target="_blank" rel="noopener"><T text={item.title} /></a> : <T text={item.title} />}
+          </h3>
+          <p class="meta"><T text={item.meta} /></p>
+          <p class="text"><T text={item.text} /></p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .work {
+    background:
+      radial-gradient(55% 50% at 15% 15%, rgb(56 189 248 / 0.14), transparent 70%),
+      var(--grad-soft);
+  }
+  .grid { list-style: none; padding: 0; display: grid; gap: var(--space-7) var(--space-5); }
+  .shot {
+    aspect-ratio: 4 / 3; border-radius: var(--radius-lg); overflow: hidden;
+    background: var(--grad-card); border: 1px solid var(--c-line); box-shadow: var(--shadow-sm);
+  }
+  .shot :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ph {
+    height: 100%; display: grid; place-content: center; justify-items: center; gap: var(--space-2);
+    color: var(--c-muted); font-size: var(--fs-small); font-weight: 600;
+    background:
+      radial-gradient(60% 70% at 85% 20%, rgb(56 189 248 / 0.14), transparent 70%),
+      repeating-linear-gradient(135deg, transparent 0 14px, rgb(29 78 216 / 0.05) 14px 15px),
+      #f8fbff;
+  }
+  h3 { margin-top: var(--space-4); font-size: 1.25rem; letter-spacing: -0.015em; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+  .meta { margin-top: var(--space-1); font-size: var(--fs-small); font-weight: 600; color: var(--c-brand); }
+  .text { margin-top: var(--space-2); color: var(--c-ink-soft); font-size: var(--fs-small); }
+
+  @media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 60rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

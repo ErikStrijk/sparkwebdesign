@@ -1,0 +1,7 @@
+---
+/** Tekst met [PLACEHOLDERS] die visueel gemarkeerd worden. */
+interface Props { text: string }
+const { text } = Astro.props;
+const parts = text.split(/(\[[^\]]+\])/g).filter(Boolean);
+---
+{parts.map((p) => (p.startsWith('[') && p.endsWith(']') ? <span class="placeholder-tag">{p}</span> : p))}

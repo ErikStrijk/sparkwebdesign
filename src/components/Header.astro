@@ -1,0 +1,187 @@
+---
+/**
+ * Zwevende navigatie: een inktkleurige pil boven de hero. Zodra je voorbij de hero scrolt
+ * wordt hij nog iets dichter, zodat hij ook op witte secties leesbaar blijft.
+ */
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, whatsappHref } from '../data/site';
+const links = [
+  { href: '#prijs', label: 'Prijs' },
+  { href: '#werkwijze', label: 'Werkwijze' },
+  { href: '#werk', label: 'Werk' },
+  { href: '#over-mij', label: 'Over mij' },
+  { href: '#vragen', label: 'Vragen' },
+];
+---
+<header class="header" data-header>
+  <div class="wrap">
+    <div class="pill">
+      <a href="#top" class="home" aria-label={`${site.name}, naar boven`}><Logo invert /></a>
+
+      <nav class="nav-desktop" aria-label="Hoofdmenu">
+        <ul>{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </nav>
+
+      <div class="actions">
+        <a class="btn btn--ghost btn--sm wa" href={whatsappHref} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={18} />WhatsApp
+        </a>
+        <a class="btn btn--primary btn--sm" href="#contact">
+          {site.ctaShort}
+          <span class="btn__chip"><Icon name="arrow" size={18} /></span>
+        </a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-btn>
+          <span class="visually-hidden" data-menu-label>Menu openen</span>
+          <Icon name="menu" size={22} class="i-open" />
+          <Icon name="close" size={22} class="i-close" />
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+      <nav aria-label="Mobiel menu">
+        <ul>{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </nav>
+      <a class="btn btn--primary btn--block" href="#contact">
+        {site.cta}
+        <span class="btn__chip"><Icon name="arrow" size={20} /></span>
+      </a>
+      <a class="btn btn--soft btn--block" href={whatsappHref} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} />WhatsApp
+      </a>
+      <p class="menu-note">{site.reassurance}</p>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    padding-top: clamp(0.5rem, 0.3rem + 0.8vw, 0.875rem);
+    pointer-events: none;
+  }
+  .wrap {
+    position: relative;
+    max-width: calc(var(--container) + 2rem);
+    margin-inline: auto;
+    padding-inline: clamp(0.5rem, 0.2rem + 1.2vw, 1rem);
+  }
+  .pill {
+    pointer-events: auto;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    height: var(--header-h);
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, rgb(8 19 48 / 0.88), rgb(18 44 110 / 0.88));
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    transition: background var(--dur) var(--ease-out), box-shadow var(--dur);
+  }
+  .header.is-solid .pill {
+    background: linear-gradient(135deg, rgb(6 14 38 / 0.96), rgb(15 37 96 / 0.96));
+    box-shadow: inset 0 0 0 1px rgb(147 197 253 / 0.18), 0 12px 32px -14px rgb(5 12 32 / 0.65);
+  }
+  .home { text-decoration: none; display: inline-flex; flex: none; }
+
+  .nav-desktop { display: none; }
+  .nav-desktop ul { display: flex; gap: 0.125rem; list-style: none; padding: 0; }
+  .nav-desktop a {
+    display: block; padding: 0.5rem 0.8rem; border-radius: var(--radius-pill);
+    font-weight: 500; font-size: 0.9375rem; color: rgb(255 255 255 / 0.8); text-decoration: none;
+    transition: color var(--dur-fast), background var(--dur-fast);
+  }
+  .nav-desktop a:hover { color: var(--c-on-dark); background: rgb(255 255 255 / 0.1); }
+
+  .actions { display: flex; align-items: center; gap: var(--space-2); }
+  .wa { display: none; }
+
+  .menu-btn {
+    display: grid; place-items: center; width: 2.875rem; height: 2.875rem; flex: none;
+    border: 0; border-radius: 50%; color: var(--c-on-dark);
+    background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2);
+  }
+  .menu-btn:hover { background: rgb(255 255 255 / 0.18); }
+  .menu-btn :global(.i-close) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.i-open) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.i-close) { display: block; }
+
+  .mobile-menu {
+    pointer-events: auto;
+    margin-top: var(--space-2);
+    display: grid; gap: var(--space-3);
+    background: #fff; border-radius: 1.5rem;
+    padding: var(--space-2) var(--space-5) var(--space-5);
+    box-shadow: var(--shadow-lg);
+    max-height: calc(100dvh - var(--header-h) - 2rem); overflow-y: auto;
+  }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu ul { list-style: none; padding: 0; margin-bottom: var(--space-3); }
+  .mobile-menu li + li { border-top: 1px solid var(--c-line); }
+  .mobile-menu nav a {
+    display: block; padding: 0.9rem 0; font-family: var(--font-display); font-weight: 700;
+    font-size: 1.375rem; letter-spacing: -0.02em; text-decoration: none; color: var(--c-ink);
+  }
+  .menu-note { text-align: center; font-size: var(--fs-small); color: var(--c-muted); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu:not([hidden]) { animation: drop var(--dur) var(--ease-out); }
+    @keyframes drop { from { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+  }
+
+  @media (max-width: 63.99rem) {
+    .pill { padding-left: 1rem; gap: var(--space-2); }
+    .home :global(.logo) { font-size: 1.15rem; }
+    .actions > .btn--primary { padding-inline: 0.95rem; }
+    .actions > .btn--primary .btn__chip { display: none; }
+  }
+  @media (max-width: 22rem) { .actions > .btn--primary { display: none; } }
+  @media (min-width: 64rem) {
+    .nav-desktop { display: block; }
+    .wa { display: inline-flex; }
+    .menu-btn, .mobile-menu { display: none !important; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const label = document.querySelector<HTMLElement>('[data-menu-label]')!;
+
+  // Inktkleurige pil; na de hero iets dichter met schaduw.
+  const hero = document.getElementById('top');
+  const solidify = () => {
+    const limit = hero ? hero.offsetHeight - 90 : 8;
+    header.classList.toggle('is-solid', window.scrollY > limit || !menu.hidden);
+  };
+  solidify();
+  window.addEventListener('scroll', solidify, { passive: true });
+
+  const focusables = () => [btn, ...menu.querySelectorAll<HTMLElement>('a')];
+
+  function setOpen(open: boolean) {
+    btn.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? 'Menu sluiten' : 'Menu openen';
+    menu.hidden = !open;
+    solidify();
+    if (open) menu.querySelector<HTMLElement>('a')?.focus();
+  }
+
+  btn.addEventListener('click', () => setOpen(menu.hidden));
+  menu.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (menu.hidden) return;
+    if (e.key === 'Escape') { setOpen(false); btn.focus(); return; }
+    if (e.key === 'Tab') {
+      const f = focusables();
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  window.matchMedia('(min-width: 64rem)').addEventListener('change', (m) => { if (m.matches) setOpen(false); });
+</script>

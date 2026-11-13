@@ -1,0 +1,211 @@
+---
+/**
+ * Hero: sfeerfoto over de volle breedte. Links vloeit hij warm over naar papier,
+ * zodat de donkere tekst goed leesbaar blijft; rechts is de foto helder.
+ * Rechts staat het aanvraagformulier als witte kaart op de foto.
+ * Foto: Clay Banks via Unsplash (photo-1761323612470-b8de857169e1, Unsplash License).
+ * Vervangen? Zet een liggende foto (min. 2000px breed) op src/assets/hero-werkplek.jpg,
+ * met de rustige kant links. Stel zo nodig object-position bij in .bg.
+ */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import AanvraagForm from './AanvraagForm.astro';
+import heroImg from '../assets/hero-werkplek.jpg';
+import { site, whatsappHref } from '../data/site';
+---
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <Image
+    src={heroImg}
+    alt=""
+    class="bg"
+    widths={[640, 960, 1440, 2000, 2400]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="container grid">
+    <div class="copy">
+      <h1 id="hero-title">
+        Een website waar je trots op bent. Voor <span class="mark">€{site.price}<svg class="spark spark--a" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0Z"/></svg><svg class="spark spark--b" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0Z"/></svg></span>.
+      </h1>
+      <p class="lede">
+        Ik ontwerp en bouw je site. Professioneel, snel en zonder bureauprijzen.
+      </p>
+      <ul class="facts" aria-label="In het kort">
+        <li><b class="num">€{site.upfront}</b> vooraf</li>
+        <li>Live in <b class="num">{site.daysToLive}</b> dagen</li>
+        <li><b class="num">{site.feedbackRounds}</b> feedbackrondes</li>
+      </ul>
+      <a class="btn btn--soft" href={whatsappHref} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} />Liever even appen?
+      </a>
+    </div>
+
+    <div class="form-wrap">
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 120 120" class="badge__ring">
+          <defs><path id="badge-circle" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs>
+          <text><textPath href="#badge-circle" textLength="282">€{site.upfront} VOORAF · BETAAL PAS BIJ LIVEGANG ·</textPath></text>
+        </svg>
+        <svg viewBox="0 0 24 24" class="badge__spark"><path d="M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0Z"/></svg>
+      </div>
+      <AanvraagForm
+        id="hero"
+        compact
+        title="Vraag je gratis ontwerp aan"
+        intro={`Reactie binnen ${site.responseTime}. Vrijblijvend.`}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* Mobiel: eerst een strook foto, dan vloeit hij over in warm papier voor tekst en formulier */
+    padding-block: calc(var(--header-h) + min(12rem, 46vw)) clamp(3.5rem, 2rem + 5vw, 6.5rem);
+    background: #fcf6ee;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .bg {
+    position: absolute; inset: 0 0 auto 0; z-index: -2;
+    width: 100%; height: min(30rem, 100vw);
+    object-fit: cover; object-position: 72% 40%;
+    filter: sepia(0.08) saturate(1.12);
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(65% 55% at 15% 15%, rgb(255 176 112 / 0.22), transparent 70%),
+      radial-gradient(50% 45% at 85% 25%, rgb(251 191 36 / 0.12), transparent 70%),
+      linear-gradient(180deg,
+        rgb(252 246 238 / 0.14) 0,
+        rgb(252 246 238 / 0) 8rem,
+        rgb(252 246 238 / 0.68) min(18rem, 62vw),
+        #fcf6ee min(28rem, 94vw));
+  }
+
+  .grid { display: grid; gap: clamp(2.5rem, 2rem + 3vw, 4rem); align-items: center; }
+
+  h1 {
+    font-size: var(--fs-display);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-display);
+    font-weight: 780;
+    color: var(--c-ink);
+    max-width: 13ch;
+  }
+  .mark {
+    position: relative;
+    white-space: nowrap;
+    background: var(--grad-accent) no-repeat 0 92% / 100% 0.16em;
+    padding-inline: 0.04em;
+  }
+  .spark { position: absolute; fill: var(--c-accent); pointer-events: none; }
+  .spark--a { width: 0.34em; height: 0.34em; top: -0.12em; right: -0.32em; }
+  .spark--b { width: 0.18em; height: 0.18em; top: 0.28em; right: -0.5em; }
+
+  .lede {
+    margin-block: var(--space-5);
+    font-size: var(--fs-lede);
+    color: var(--c-ink-soft);
+    max-width: 30rem;
+  }
+
+  .facts {
+    list-style: none; padding: 0; margin: 0 0 var(--space-6);
+    display: flex; flex-wrap: wrap; gap: var(--space-2);
+  }
+  .facts li {
+    display: inline-flex; align-items: baseline; gap: 0.3em;
+    padding: 0.45rem 0.9rem 0.45rem 0.75rem;
+    border-radius: var(--radius-pill);
+    background: #fff; box-shadow: inset 0 0 0 1px var(--c-line), var(--shadow-sm);
+    font-size: var(--fs-small); font-weight: 500; color: var(--c-ink-soft);
+  }
+  .facts li::before {
+    content: ''; align-self: center; width: 0.45rem; height: 0.45rem; margin-right: 0.2rem;
+    border-radius: 50%; background: var(--c-accent);
+  }
+  .facts b { font-family: var(--font-display); font-weight: 780; color: var(--c-ink); font-size: 1.05em; }
+
+  .form-wrap { position: relative; width: 100%; max-width: 30rem; }
+  /* Blauwe/cyaan gloed achter het formulier */
+  .form-wrap::before {
+    content: ''; position: absolute; inset: 10% -12% -8% 8%; z-index: -1;
+    background: radial-gradient(closest-side, rgb(56 189 248 / 0.36), rgb(29 78 216 / 0.14) 60%, transparent);
+    filter: blur(26px);
+  }
+  .badge {
+    position: absolute; z-index: 2; top: -2.6rem; right: -0.75rem;
+    width: clamp(5.5rem, 4.5rem + 3vw, 7rem); aspect-ratio: 1;
+    display: grid; place-items: center;
+    border-radius: 50%; background: var(--grad-accent); color: var(--c-on-accent);
+    box-shadow: var(--shadow-cta);
+    rotate: 8deg;
+  }
+  .badge > * { grid-area: 1 / 1; }
+  .badge__ring { width: 100%; height: 100%; }
+  .badge__ring text {
+    font-family: var(--font-display); font-weight: 760; font-size: 11.5px; letter-spacing: 0.06em;
+    fill: currentColor;
+  }
+  .badge__spark { width: 28%; fill: currentColor; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Foto blijft langzaam ademen in plaats van stil te staan */
+    .js .bg { animation: drift 22s ease-in-out infinite alternate; }
+    .js .copy > *, .js .form-wrap { animation: up 900ms var(--ease-out) both; }
+    .js .copy > :nth-child(2) { animation-delay: 100ms; }
+    .js .copy > :nth-child(3) { animation-delay: 180ms; }
+    .js .copy > :nth-child(4) { animation-delay: 260ms; }
+    .js .form-wrap { animation-delay: 320ms; }
+
+    /* €500: streep trekt zich onder de prijs, daarna twinkelen de vonkjes */
+    .js .mark { animation: draw 700ms var(--ease-out) 650ms both; }
+    .js .spark { animation: pop 500ms var(--ease-out) 1250ms both, twinkle 2.6s ease-in-out 1750ms infinite; }
+    .js .spark--b { animation-delay: 1400ms, 2400ms; }
+
+    .js .facts li { animation: up 600ms var(--ease-out) both; }
+    .js .facts li:nth-child(1) { animation-delay: 300ms; }
+    .js .facts li:nth-child(2) { animation-delay: 380ms; }
+    .js .facts li:nth-child(3) { animation-delay: 460ms; }
+
+    .js .badge { animation: badge-in 800ms cubic-bezier(0.34, 1.56, 0.64, 1) 900ms both; }
+    .badge__ring { animation: spin 18s linear infinite; }
+
+    @keyframes drift {
+      from { transform: scale(1.08); }
+      to   { transform: scale(1.02) translate3d(-1.5%, -1%, 0); }
+    }
+    @keyframes up { from { opacity: 0; transform: translateY(16px); } }
+    @keyframes draw { from { background-size: 0% 0.16em; } }
+    @keyframes pop { from { opacity: 0; transform: scale(0) rotate(-90deg); } }
+    @keyframes twinkle { 0%, 100% { transform: scale(1) rotate(0); } 50% { transform: scale(0.6) rotate(45deg); } }
+    @keyframes badge-in { from { opacity: 0; transform: scale(0.4) rotate(-40deg); } }
+    @keyframes spin { to { rotate: 360deg; } }
+  }
+
+  /* Vanaf laptop: foto over de hele hero, warme overloop achter de tekst links */
+  @media (min-width: 64rem) {
+    .hero { padding-block: calc(var(--header-h) + clamp(4rem, 2rem + 5vw, 6rem)) clamp(4rem, 2rem + 5vw, 6.5rem); }
+    .bg { inset: 0; height: 100%; object-position: 60% 45%; }
+    .hero::after {
+      background:
+        radial-gradient(50% 60% at 12% 20%, rgb(255 176 112 / 0.24), transparent 70%),
+        radial-gradient(45% 55% at 75% 25%, rgb(251 191 36 / 0.12), transparent 70%),
+        linear-gradient(90deg,
+          #fcf6ee 0%,
+          rgb(252 246 238 / 0.95) 28%,
+          rgb(252 246 238 / 0.78) 40%,
+          rgb(252 246 238 / 0.24) 52%,
+          rgb(252 246 238 / 0) 64%),
+        linear-gradient(0deg, rgb(252 246 238 / 0.35), transparent 18%);
+    }
+    .grid { grid-template-columns: minmax(0, 34rem) minmax(22rem, 26rem); justify-content: space-between; gap: 3rem; }
+    h1 { font-size: clamp(2.75rem, 1rem + 3.4vw, 4.25rem); }
+    .form-wrap { justify-self: end; }
+  }
+</style>

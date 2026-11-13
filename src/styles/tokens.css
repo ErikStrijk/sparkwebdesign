@@ -1,0 +1,91 @@
+/*
+  Sparkdesign design tokens
+  Eén plek voor kleur, type, ruimte en vorm. Pas hier aan, de hele site volgt.
+  Herbruikbaar voor klantsites: kopieer dit bestand en wissel de waarden.
+*/
+:root {
+  /* Kleur: merk (diep nachtblauw, kobalt & ijsblauw) */
+  --c-brand: #1d4ed8;         /* kobaltblauw: koppen, getallen, accentvlakken */
+  --c-brand-deep: #0b193c;    /* diep marineblauw: donkere banden */
+  --c-brand-night: #050c20;   /* nachtblauw: footer, gradient-start */
+  --c-brand-tint: #e0ecff;    /* ijsblauw: zachte ondergrond, rustige knoppen */
+  --c-brand-line: #c7daff;    /* lijnen op ijsblauw */
+  --c-on-dark: #f4f8ff;       /* tekst op donkerblauw (16:1) */
+  --c-on-dark-soft: #b8cdf2;  /* secundaire tekst op donkerblauw (10:1) */
+
+  --c-accent: #38bdf8;        /* helder hemelsblauw/cyaan: knoppen en highlights */
+  --c-accent-hover: #56ccfa;
+  --c-accent-press: #0ea5e9;
+  --c-on-accent: #050c20;     /* nachtblauw tekst op accent (>9:1) */
+
+  /* Gradients: diep nachtblauw naar kobalt, met cyaan- en indigogloed */
+  --grad-brand: linear-gradient(135deg, #050c20 0%, #0d2152 48%, #1a3a8a 100%);
+  --grad-glow: radial-gradient(65% 85% at 95% 5%, rgb(56 189 248 / 0.24), transparent 65%), radial-gradient(50% 70% at 5% 95%, rgb(99 102 241 / 0.2), transparent 65%);
+  --grad-accent: linear-gradient(135deg, #38bdf8 0%, #60a5fa 55%, #818cf8 100%);
+  --grad-accent-hover: linear-gradient(135deg, #56ccfa 0%, #7cb3fc 55%, #959efa 100%);
+  --grad-soft: linear-gradient(180deg, #e7f0ff 0%, #dce9ff 100%);
+  --grad-card: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+
+  /* Kleur: neutraal (koel ijspapier) */
+  --c-ink: #0b1530;           /* diepblauw-inkt: lopende tekst */
+  --c-ink-soft: #33456b;      /* lopende tekst secundair */
+  --c-muted: #526488;         /* bijschriften */
+  --c-line: #dbe6f6;
+  --c-bg: #f6f9ff;            /* koel lichtblauw papier */
+  --c-bg-soft: #e7f0ff;       /* duidelijk ijsblauw: wisselt af met papier */
+  --c-line-strong: #bfd4f2;   /* lijnen op ijsblauw */
+  --c-success: #0b7a4b;
+  --c-error: #b42318;
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Figtree Variable', 'Figtree', ui-sans-serif, system-ui, sans-serif;
+
+  --fs-display: clamp(2.5rem, 1.55rem + 4.2vw, 4.75rem);
+  --fs-h2: clamp(2rem, 1.5rem + 2.3vw, 3.25rem);
+  --fs-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --fs-lede: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-xs: 0.8125rem;
+  --fs-number: clamp(3rem, 2.2rem + 3.6vw, 5.25rem);
+
+  --lh-tight: 1.04;
+  --lh-snug: 1.2;
+  --lh-body: 1.6;
+  --tracking-display: -0.035em;
+  --tracking-h2: -0.025em;
+
+  /* Ruimte (4px-basis) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --section-y: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --container: 72rem;
+  --measure: 38rem;
+
+  /* Vorm */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(11 21 48 / 0.06), 0 2px 6px rgb(11 21 48 / 0.05);
+  --shadow: 0 2px 4px rgb(11 21 48 / 0.04), 0 12px 32px -8px rgb(29 78 216 / 0.14);
+  --shadow-lg: 0 4px 8px rgb(11 21 48 / 0.05), 0 32px 64px -16px rgb(11 21 48 / 0.24);
+  --shadow-cta: 0 2px 0 rgb(14 116 144 / 0.35), 0 8px 22px -6px rgb(56 189 248 / 0.55);
+
+  /* Beweging */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-reveal: 700ms;
+
+  --header-h: 4rem;
+}

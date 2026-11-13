@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import T from './T.astro';
+import { faq } from '../data/faq';
+import { whatsappHref } from '../data/site';
+---
+<section class="section faq" id="vragen" aria-labelledby="vragen-title">
+  <div class="container grid">
+    <div class="section-head side" data-reveal>
+      <h2 id="vragen-title">Vragen? Eerlijke antwoorden.</h2>
+      <p>Staat je vraag er niet tussen? <a href={whatsappHref} target="_blank" rel="noopener">App me even</a>, dan hoor je het snel.</p>
+    </div>
+
+    <div class="list">
+      {faq.map((item, i) => (
+        <details name="faq" data-reveal style={`--reveal-i:${Math.min(i, 3)}`}>
+          <summary>
+            <span><T text={item.q} /></span>
+            <Icon name="plus" size={22} class="icon" />
+          </summary>
+          <div class="answer"><p><T text={item.a} /></p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { background: var(--c-bg-soft); }
+  .grid { display: grid; gap: var(--space-4); align-items: start; }
+  .side { margin-bottom: var(--space-5); }
+  .side a { color: var(--c-brand); font-weight: 600; }
+
+  .list { border-top: 1px solid var(--c-line-strong); }
+  details { border-bottom: 1px solid var(--c-line-strong); interpolate-size: allow-keywords; }
+  summary {
+    list-style: none; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-5);
+    padding: 1.35rem 0; min-height: 3rem;
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem); letter-spacing: -0.015em;
+    transition: color var(--dur-fast);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--c-brand); }
+  summary :global(.icon) {
+    flex: none; color: var(--c-brand);
+    transition: transform var(--dur) var(--ease-out);
+  }
+  details[open] summary :global(.icon) { transform: rotate(45deg); }
+
+  .answer { padding-bottom: var(--space-5); max-width: 40rem; color: var(--c-ink-soft); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details::details-content {
+      block-size: 0; overflow: clip;
+      transition: block-size var(--dur) var(--ease-out), content-visibility var(--dur) allow-discrete;
+    }
+    details[open]::details-content { block-size: auto; }
+  }
+
+  @media (min-width: 60rem) {
+    .grid { grid-template-columns: 5fr 7fr; gap: var(--space-8); }
+    .side { position: sticky; top: calc(var(--header-h) + var(--space-6)); }
+  }
+</style>

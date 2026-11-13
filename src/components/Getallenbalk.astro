@@ -1,0 +1,71 @@
+---
+import { site } from '../data/site';
+
+const stats = [
+  { prefix: '€', value: site.price, label: 'vaste prijs, eenmalig' },
+  { prefix: '', value: site.daysToLive, label: 'dagen en je site staat live' },
+  { prefix: '', value: site.feedbackRounds, label: 'feedbackrondes inbegrepen' },
+  { prefix: '€', value: site.upfront, label: 'vooraf. Je betaalt bij livegang' },
+];
+---
+<section class="stats on-dark" aria-label="Sparkdesign in getallen">
+  <div class="container">
+    <ul class="list">
+      {stats.map((s, i) => (
+        <li class="stat" data-reveal style={`--reveal-i:${i}`}>
+          <span class="value num">
+            <span class="visually-hidden">{s.prefix}{s.value}</span>
+            <span aria-hidden="true">{s.prefix}<span data-count={s.value}>{s.value}</span></span>
+          </span>
+          <span class="label">{s.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stats { padding-block: clamp(3rem, 2rem + 4vw, 5rem); }
+  .list {
+    list-style: none; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-7) var(--space-5);
+  }
+  .stat { display: grid; gap: var(--space-2); align-content: start; }
+  .value {
+    font-family: var(--font-display); font-weight: 780; font-size: var(--fs-number);
+    line-height: 0.95; letter-spacing: -0.045em; color: var(--c-on-dark);
+  }
+  .label { font-size: var(--fs-small); color: var(--c-on-dark-soft); font-weight: 500; max-width: 14rem; }
+
+  @media (min-width: 52rem) {
+    .list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .stat + .stat { border-left: 1px solid rgb(255 255 255 / 0.14); padding-left: var(--space-6); }
+  }
+</style>
+
+<script>
+  // Het enige 'signature'-moment: de getallen tellen één keer op als ze in beeld komen.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nodes = document.querySelectorAll<HTMLElement>('[data-count]');
+  if (!reduce && 'IntersectionObserver' in window) {
+    const run = (el: HTMLElement) => {
+      const end = Number(el.dataset.count);
+      if (!end) return;
+      const dur = 1100;
+      const t0 = performance.now();
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(2, -10 * p);
+        el.textContent = String(Math.round(end * (p === 1 ? 1 : eased)));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = '0';
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    nodes.forEach((n) => io.observe(n));
+  }
+</script>
